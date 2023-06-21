@@ -1,25 +1,20 @@
 #!/bin/bash
 
-# Check if fprint library is installed
-if ! dpkg -s libfprint0 >/dev/null 2>&1; then
-  echo "Please install the 'libfprint0' package to use the fingerprint scanner."
-  exit 1
-fi
-
-# Check if fprint demo program is installed
-if ! dpkg -s libfprint-demo >/dev/null 2>&1; then
-  echo "Please install the 'libfprint-demo' package to use the fingerprint scanner."
-  exit 1
+# Check if fprintd package is installed
+if ! dpkg -s fprintd >/dev/null 2>&1; then
+  echo "Installing required packages..."
+  sudo apt update
+  sudo apt install -y fprintd
 fi
 
 # Enroll a fingerprint
 enroll_fingerprint() {
-  fprint_demo_enroll
+  fprintd-enroll
 }
 
 # Verify a fingerprint
 verify_fingerprint() {
-  fprint_demo_verify
+  fprintd-verify
 }
 
 # Main menu
